@@ -3,20 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Cover Studio — GTA-style cover art maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">VCS</span> Vice Cover Studio</div>
+  <p class="tagline">Turn your photos into a multi-panel Vice City poster — offline, in three clicks.</p>
+</header>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="stage">
+    <div class="canvas-wrap" id="dropzone">
+      <canvas id="cover" width="1080" height="1080" aria-label="Cover preview"></canvas>
+      <p class="drop-hint">Drop photos here, or click a panel then choose a photo below</p>
+    </div>
+    <div class="tray" id="tray" aria-label="Photo tray"></div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <aside class="controls">
+    <h1>Make your cover</h1>
+
+    <fieldset>
+      <legend>1 · Panel layout</legend>
+      <div class="templates" id="templates"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2 · Photos — click a panel, then a photo</legend>
+      <label class="file-label">Add your photos
+        <input id="photo" type="file" accept="image/*" multiple>
+      </label>
+      <div class="row">
+        <button id="fillAll" type="button">Fill all panels with selected photo</button>
+      </div>
+      <label>Zoom <input id="zoom" type="range" min="1" max="3" step="0.01" value="1"></label>
+      <label>Pan left–right <input id="panX" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+      <label>Pan up–down <input id="panY" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+      <p class="hint" id="panelHint">Panel 1 selected — drag on the cover to pan, scroll to zoom.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>3 · Caption</legend>
+      <label>Big caption <input id="caption" type="text" maxlength="32" value="VICE NIGHTS"></label>
+      <label>Tagline <input id="tagline" type="text" maxlength="60" value="A TROPICAL CRIME STORY"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4 · Vice City grade</legend>
+      <label>Grade
+        <select id="grade">
+          <option value="sunset" selected>Vice Sunset — pink &amp; orange</option>
+          <option value="neon">Neon Nights — cyan &amp; magenta</option>
+          <option value="golden">Golden Hour — warm gold</option>
+          <option value="noir">Noir — high-contrast mono</option>
+        </select>
+      </label>
+      <label>Saturation <input id="saturation" type="range" min="0.4" max="1.8" step="0.05" value="1.15"></label>
+      <label>Contrast <input id="contrast" type="range" min="0.8" max="1.4" step="0.05" value="1.08"></label>
+      <label class="check"><input id="halftone" type="checkbox" checked> Halftone print texture</label>
+      <label>Panel keylines
+        <select id="keyline">
+          <option value="white" selected>White</option>
+          <option value="black">Black</option>
+          <option value="none">None</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5 · Export PNG</legend>
+      <label>Preview size
+        <select id="previewSize">
+          <option value="square" selected>Square 1080 × 1080</option>
+          <option value="portrait">Portrait 1080 × 1350</option>
+          <option value="wide">Wide 1920 × 1080</option>
+        </select>
+      </label>
+      <div class="exports">
+        <button id="exportSquare" type="button">1080 × 1080</button>
+        <button id="exportPortrait" type="button">1080 × 1350</button>
+        <button id="exportWide" type="button">1920 × 1080</button>
+      </div>
+      <p id="status" role="status"></p>
+    </fieldset>
+  </aside>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
